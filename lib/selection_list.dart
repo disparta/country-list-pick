@@ -1,5 +1,3 @@
-import 'package:country_list_pick/country_selection_theme.dart';
-import 'package:country_list_pick/support/code_country.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -13,7 +11,8 @@ class SelectionList extends StatefulWidget {
       this.theme,
       this.countryBuilder,
       this.useUiOverlay = true,
-      this.useSafeArea = false})
+      this.useSafeArea = false,
+      this.tileColor = Colors.white})
       : super(key: key);
 
   final PreferredSizeWidget? appBar;
@@ -23,6 +22,7 @@ class SelectionList extends StatefulWidget {
   final Widget Function(BuildContext context, CountryCode)? countryBuilder;
   final bool useUiOverlay;
   final bool useSafeArea;
+  final Color tileColor;
 
   @override
   _SelectionListState createState() => _SelectionListState();
@@ -56,6 +56,12 @@ class _SelectionListState extends State<SelectionList> {
     super.initState();
   }
 
+  @override
+  void dispose() {
+    _controllerScroll?.dispose();
+    super.dispose();
+  }
+
   void _sendDataBack(BuildContext context, CountryCode initialSelection) {
     Navigator.pop(context, initialSelection);
   }
@@ -77,7 +83,6 @@ class _SelectionListState extends State<SelectionList> {
     Widget scaffold = Scaffold(
       appBar: widget.appBar,
       body: Container(
-        color: Color(0xfff4f4f4),
         child: LayoutBuilder(builder: (context, contrainsts) {
           diff = height - contrainsts.biggest.height;
           _heightscroller = (contrainsts.biggest.height) / _alphabet.length;
@@ -102,7 +107,7 @@ class _SelectionListState extends State<SelectionList> {
                           ),
                         ),
                         Container(
-                          color: Colors.white,
+                          color: widget.tileColor,
                           child: TextField(
                             controller: _controller,
                             decoration: InputDecoration(
@@ -129,7 +134,7 @@ class _SelectionListState extends State<SelectionList> {
                           ),
                         ),
                         Container(
-                          color: Colors.white,
+                          color: widget.tileColor,
                           child: Material(
                             color: Colors.transparent,
                             child: ListTile(
@@ -190,7 +195,7 @@ class _SelectionListState extends State<SelectionList> {
   Widget getListCountry(CountryCode e) {
     return Container(
       height: 50,
-      color: Colors.white,
+      color: widget.tileColor,
       child: Material(
         color: Colors.transparent,
         child: ListTile(
