@@ -54,11 +54,11 @@ class _MyAppState extends State<MyApp> {
             initialSelection: '+62',
             // or
             // initialSelection: 'US'
-            onChanged: (CountryCode code) {
-              print(code.name);
-              print(code.code);
-              print(code.dialCode);
-              print(code.flagUri);
+            onChanged: (CountryCode? code) {
+              print(code?.name);
+              print(code?.code);
+              print(code?.dialCode);
+              print(code?.flagUri);
             },
           ),
         ),
